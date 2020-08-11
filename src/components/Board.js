@@ -15,13 +15,20 @@ export default function Board() {
     null,
   ]);
 
+  const [xIsNext, setxIsNext] = React.useState(true);
+
   const status = "Next player: X";
 
   const handleClick = (index) => {
-    console.log(index);
-    const squaresCopy = [...squares];
-    squaresCopy[index] = "X";
-    setSquares(squaresCopy);
+    if (!squares[index]) {
+      const squaresCopy = [...squares];
+      squaresCopy[index] = xIsNext ? "X" : "O";
+      setSquares(squaresCopy);
+      setxIsNext(!xIsNext);
+      console.log(xIsNext);
+    } else {
+      alert("no");
+    }
   };
 
   return (
