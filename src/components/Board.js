@@ -1,33 +1,33 @@
 import "./board.css";
 import React from "react";
 import Square from "./Square";
+import calculateWinner from "../api/game";
 
 export default function Board() {
-  const [squares, setSquares] = React.useState([
-    "O",
-    null,
-    "X",
-    "X",
-    "X",
-    "O",
-    "O",
-    null,
-    null,
-  ]);
+  const [squares, setSquares] = React.useState([]);
 
   const [xIsNext, setxIsNext] = React.useState(true);
 
-  const status = "Next player: X";
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = "Winner: " + winner;
+  } else {
+    status = xIsNext ? "Next player: X" : "Next player: O";
+  }
 
   const handleClick = (index) => {
     if (!squares[index]) {
       const squaresCopy = [...squares];
+      if (calculateWinner(squares) || squares[index]) {
+        return;
+      }
       squaresCopy[index] = xIsNext ? "X" : "O";
       setSquares(squaresCopy);
       setxIsNext(!xIsNext);
       console.log(xIsNext);
     } else {
-      alert("no");
+      alert("Select an empty field");
     }
   };
 
